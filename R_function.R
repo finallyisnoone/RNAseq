@@ -5,8 +5,7 @@ pie_plot <- function(dt){
 #####Freq is Freq or percent , type is type or label
 library(ggplot2)
 library(ggsci)
-#dt = dt[order(dt$Freq, decreasing = TRUE),]   ## 用 order() 让数据框的数据按 Freq 列数据从大到小排序
-  ## 转成向量，否则图例的标签可能与实际顺序不一致
+#dt = dt[order(dt$Freq, decreasing = TRUE),]   
 myLabel = paste(dt$type, " ( ", round(dt$Freq/sum(dt$Freq)*100,2), "% )   ", sep = "")   ## 用 round() 对结果保留两位小数  
 p = ggplot(dt, aes(x = "", y = Freq, fill = type)) + 
   geom_bar(stat = "identity", width = 1) + scale_fill_jama(name="",label=myLabel)+ 
@@ -14,7 +13,6 @@ p = ggplot(dt, aes(x = "", y = Freq, fill = type)) +
   labs(x = "", y = "", title = "") + 
   theme(axis.ticks = element_blank()) + 
   theme(legend.title = element_blank())#, legend.position = "bottom")
-     ## 白色的外框即是原柱状图的X轴，把X轴的刻度文字去掉即可
 return(p)
 }
 
@@ -61,16 +59,6 @@ p <-  ggplot2::ggplot(df,mapping = ggplot2::aes(x = x, y = y)) +scale_fill_jama(
 detach(df)
   return(p)
 }
-
-
-####################
-# my_comparisons <- list(c("m6A", "non-m6A"))
-# p <- ggboxplot(circ_input_RPM_m6A, x="m6Astatus", y="Log2mean", fill = "m6Astatus", 
-#                palette = c("#374E55FF", "#DF8F44FF"))+
-#   labs(title="The expression level of m6A circRNA and non-m6A circRNA", x="", y="log2(SRPBM+1)")+
-#   stat_compare_means(comparisons = my_comparisons,label = "p.signif")+#不同组间的比较
-#   stat_compare_means(label.y = 18)+theme(plot.title = element_text(hjust = 0.5),legend.position=c(0.9,0.85))
-
 
 ###################
 volcano_plot <- function(res_df,contrast_factor,pval = 0.05,fc=1.5){
